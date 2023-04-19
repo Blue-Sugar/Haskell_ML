@@ -6,6 +6,10 @@ import Data.List
 
 type Vector = [Double]
 
+plusForeachElement :: Vector -> Vector -> Vector
+plusForeachElement [] [] = []
+plusForeachElement (x:xs) (y:ys) = x + y : plusForeachElement xs ys
+
 multForeachElement :: Vector -> Vector -> Vector
 multForeachElement [] [] = []
 multForeachElement (x:xs) (y:ys) = x * y : multForeachElement xs ys
@@ -29,9 +33,13 @@ matrixByVector ::Vector -> Matrix
 matrixByVector [x] = [[x]]
 matrixByVector (x:xs) = [x] : matrixByVector xs
 
-
 --- 1*1行列から要素, ベクトルへ
 elementByMatrix :: Matrix -> Double
 elementByMatrix [[x]] = x
 vectorByMatrix :: Matrix -> Vector
 vectorByMatrix = concat
+
+
+-- Vector v と Matrix m の積を計算して、 Vector b をたす
+forward :: Vector -> Matrix -> Vector -> Vector
+forward v m = plusForeachElement (concat ([v] `mm` m))
